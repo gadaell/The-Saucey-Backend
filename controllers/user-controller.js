@@ -77,57 +77,31 @@ const userController = {
   },
   addFriend({ params }, res) {
     User.findOneAndUpdate(
-      { _id: params.userid },
+      { _id: params.id },
       { $addToSet: { friends: params.friendId } },
       { new: true }
     )
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "No user with this id! " });
+          res.status(404).json({ message: "No user found with this id!" });
           return;
         }
-        User.findOneAndUpdate(
-          { _id: params.friendId },
-          { $addToSet: { friends: params.userId } },
-          { new: true, runValidators: true }
-        )
-          .then((dbFriendData) => {
-            if (!dbFriendData) {
-              res.status(404).json({ message: "No user with this id!" });
-              return;
-            }
-            res.json(dbUserData);
-          })
-          .catch((err) => res.json(err));
+        res.json(dbUserData);
       })
       .catch((err) => res.json(err));
   },
   deleteFriend({ params }, res) {
     User.findOneAndUpdate(
-      { _id: params.userId },
+      { _id: params.id },
       { $pull: { friends: params.friendId } },
-      { new: true, runValidators: true }
+      { new: true }
     )
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "No user with this id!" });
+          res.status(404).json({ message: "No user found with this id!" });
           return;
         }
-        User.findOneAndUpdate(
-          { _id: params.friendId },
-          { $pull: { friends: params.userId } },
-          { new: true, runValidators: true }
-        )
-          .then((dbFriendData) => {
-            if (!dbFriendData) {
-              res
-                .status(404)
-                .json({ message: "No user with this friend id! " });
-              return;
-            }
-            res.json({ message: "Friend successfully deleted!" });
-          })
-          .catch((err) => res.json(err));
+        res.json(dbUserData);
       })
       .catch((err) => res.json(err));
   },

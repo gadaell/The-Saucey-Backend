@@ -3,7 +3,6 @@ const {
   getAllThoughts,
   getThoughtById,
   createThought,
-  //updateThought,
   deleteThought,
   addReaction,
   deleteReaction,
@@ -19,6 +18,7 @@ router
   .put(createThought)
   .delete(deleteThought);
 
-router.route("/:thoughtId/reactions/").post(addReaction).delete(deleteReaction);
+router.route("/:thoughtId/reactions/").post(addReaction);
+router.route("/:thoughtId/reactions/").delete(deleteReaction);
 
 module.exports = router;
