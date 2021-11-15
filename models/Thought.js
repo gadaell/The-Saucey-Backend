@@ -1,10 +1,12 @@
 const { Schema, model, Types } = require("mongoose");
 const dateFormat = require("../utils/dateFormat");
 
-const reactionSchema = new Schema(
+const ReactionSchema = new Schema(
   {
+    // set custom id to avoid confusion w/ the parent thoughts _id field.
     reactionId: {
       type: Schema.Types.ObjectId,
+      // Setting the Default value to a new ObjectId
       default: () => new Types.ObjectId(),
     },
     reactionBody: {
@@ -26,11 +28,10 @@ const reactionSchema = new Schema(
     toJSON: {
       getters: true,
     },
-    id: false,
   }
 );
 
-const thoughtSchema = new Schema(
+const ThoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
@@ -43,12 +44,13 @@ const thoughtSchema = new Schema(
       default: Date.now,
       get: (createdAtVal) => dateFormat(createdAtVal),
     },
+    //Would like to add some verification here to verify that the username exists.
     username: {
       type: String,
       required: true,
       trim: true,
     },
-    reactions: [reactionSchema],
+    reactions: [ReactionSchema],
   },
   {
     toJSON: {
@@ -59,9 +61,10 @@ const thoughtSchema = new Schema(
   }
 );
 
-thoughtSchema.virtual("reactionCount").get(function () {
+ThoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
 });
 
-const Thought = model("Thought", thoughtSchema);
+const Thought = model("Thought", ThoughtSchema);
+
 module.exports = Thought;
