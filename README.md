@@ -39,7 +39,8 @@ To create a website can handle large amounts of unstructured data using a NoSQL 
 
 ## Demonstration Video
 
-- https://watch.screencastify.com/v/VOyJisTvh7n0t8J7e5h4
+- https://watch.screencastify.com/v/4SMQuJSiKavFejrRtexh
+- The video is a little rush, all the functionality works but i had to rush the video because it has a 5 min cap.
 
 ## Contact
 
